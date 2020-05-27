@@ -26,15 +26,19 @@ public class WebResoucesTests {
 			whenUrlOkAndContentTypeMatches("/rest/init.json", ContentType.JSON.toString())
 		);
 		whenUrlOkAndContentTypeMatches("/rest/image-resources.json", ContentType.JSON.toString());
+
+		whenUrlOkAndContentTypeMatches("/rest/speaker/images/c4ab6b88490cb4da5f6ea95dae485095","image/png");
+
 		whenUrlOkAndContentTypeMatches("/rest/conferences/javaland2019", ContentType.JSON.toString());
 		whenUrlOkAndContentTypeMatches("/rest/conferences/javaland2019/styles.css", "text/css");
+
 		whenUrlOkAndContentTypeMatches("/img/favicon.ico", "image/x-icon");
-		
 	}
 
 	@Test
 	public void testDynamicServerInterface() {
 		whenUrlOkAndContentTypeMatches("/rest/keycloak.json", ContentType.JSON.toString());
+
 		whenUrlOkAndContentTypeMatches("/rest/eventsBooking/javaland2019", ContentType.JSON.toString());
 	}
 
