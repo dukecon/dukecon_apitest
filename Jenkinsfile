@@ -13,6 +13,14 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr: '5', daysToKeepStr: '5'))
     }
 
+    parameters {
+        choice(
+                name: "testTarget",
+                choices: "latest\ntesting",
+                description: "Set the DukeCon target environment for testing"
+        )
+    }
+
     triggers {
         pollSCM('*/3 * * * *')
     }
@@ -20,7 +28,7 @@ pipeline {
     stages {
         stage('API Test') {
             steps {
-                sh "mvn clean test"
+                sh "mvn ${mvnProfile(params.testTarget)} clean test"
             }
         }
     }
@@ -35,4 +43,11 @@ pipeline {
                     body: "Something is wrong with ${env.BUILD_URL}"
         }
     }
+}
+
+def mvnProfile(testTarget) {
+    if ("latest" != testTarget) {
+        return "-P ${testTarget}"
+    }
+    return ""
 }
