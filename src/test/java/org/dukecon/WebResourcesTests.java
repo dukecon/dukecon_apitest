@@ -13,9 +13,14 @@ import static org.hamcrest.Matchers.notNullValue;
 
 public class WebResourcesTests {
 
+	private static String baseUrl
+			= System.getProperty("dukecon.apitests.baseurl",
+			"https://latest.dukecon.org/javaland/2019");
+
 	@BeforeEach
 	public void setup() {
-		RestAssured.baseURI = "https://latest.dukecon.org/javaland/2019";
+		System.out.println ("Testing '" + baseUrl + "'");
+		RestAssured.baseURI = baseUrl;
 		RestAssured.port = 443;
 		RestAssured.registerParser("text/css", Parser.TEXT);
 	}
