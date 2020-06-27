@@ -1,0 +1,114 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "http://example.com/example.json",
+  "type": "array",
+  "title": "The root schema",
+  "description": "The root schema comprises the entire JSON document.",
+  "default": [],
+  "examples": [
+    [
+      {
+        "conferenceId": "javaland2019",
+        "eventId": "569905",
+        "fullyBooked": false,
+        "numberOccupied": 0,
+        "numberOfFavorites": 0,
+        "locationCapacity": 460
+      }
+    ]
+  ],
+  "additionalItems": true,
+  "items": {
+    "anyOf": [
+      {
+        "$id": "#/items/anyOf/0",
+        "type": "object",
+        "title": "The first anyOf schema",
+        "description": "An explanation about the purpose of this instance.",
+        "default": {},
+        "examples": [
+          {
+            "conferenceId": "javaland2019",
+            "eventId": "569905",
+            "fullyBooked": false,
+            "numberOccupied": 0,
+            "numberOfFavorites": 0,
+            "locationCapacity": 460
+          }
+        ],
+        "required": [
+          "conferenceId",
+          "eventId",
+          "fullyBooked",
+          "numberOccupied",
+          "numberOfFavorites",
+          "locationCapacity"
+        ],
+        "additionalProperties": true,
+        "properties": {
+          "conferenceId": {
+            "$id": "#/items/anyOf/0/properties/conferenceId",
+            "type": "string",
+            "title": "The conferenceId schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+              "javaland2019"
+            ]
+          },
+          "eventId": {
+            "$id": "#/items/anyOf/0/properties/eventId",
+            "type": "string",
+            "title": "The eventId schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+              "569905"
+            ]
+          },
+          "fullyBooked": {
+            "$id": "#/items/anyOf/0/properties/fullyBooked",
+            "type": "boolean",
+            "title": "The fullyBooked schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": false,
+            "examples": [
+              false
+            ]
+          },
+          "numberOccupied": {
+            "$id": "#/items/anyOf/0/properties/numberOccupied",
+            "type": "integer",
+            "title": "The numberOccupied schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": 0,
+            "examples": [
+              0
+            ]
+          },
+          "numberOfFavorites": {
+            "$id": "#/items/anyOf/0/properties/numberOfFavorites",
+            "type": "integer",
+            "title": "The numberOfFavorites schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": 0,
+            "examples": [
+              0
+            ]
+          },
+          "locationCapacity": {
+            "$id": "#/items/anyOf/0/properties/locationCapacity",
+            "type": "integer",
+            "title": "The locationCapacity schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": 0,
+            "examples": [
+              460
+            ]
+          }
+        }
+      }
+    ],
+    "$id": "#/items"
+  }
+}

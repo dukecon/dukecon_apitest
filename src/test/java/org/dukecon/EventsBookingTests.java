@@ -8,21 +8,23 @@ import org.springframework.restdocs.restassured3.RestDocumentationFilter;
 import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
+import static io.restassured.module.jsv.JsonSchemaValidatorSettings.settings;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 public class EventsBookingTests extends BaseTests {
 
-	private String eventId = UUID.randomUUID().toString(); //TODO not validated, that the event exists in that conference??
-	private String userToken = gatherToken();
-	private String badToken = UUID.randomUUID().toString();
+	private final String badToken = UUID.randomUUID().toString();
+
+	private final String userToken = new TokenGatherer().gatherToken();
 
 	@Test
 	public void testEventsBookingGet() {
 		whenUrlOkAndContentTypeMatches("/rest/eventsBooking/javaland2019", ContentType.JSON.toString(), document("eventsBookingGet"))
 			.assertThat()
 			.statusCode(200)
-			.body(notNullValue());
+			.body(matchesJsonSchemaInClasspath("schemas/eventsBooking.json"));
 	}
 
 	@Test
@@ -30,10 +32,13 @@ public class EventsBookingTests extends BaseTests {
 		whenAuthenticatedAndContentTypeMatches(userToken,"/rest/eventsBooking/javaland2019", ContentType.JSON.toString(), document("eventsBookingGetWithAuth"))
 			.assertThat()
 			.statusCode(200)
-			.body(notNullValue());
+			.and()
+			.body(matchesJsonSchemaInClasspath("schemas/eventsBooking.json"));
 	}
 
 	@Test void testEventBookingsUpdateIsSecured() {
+		String eventId = UUID.randomUUID().toString(); //TODO get date from conference?
+
 		eventsBookingPost(badToken, eventId, "{\"fullyBooked\":false,\"numberOccupied\":\"10\"}", document("eventsBookingPostWithBadAuthCreate"))
 			.assertThat()
 			//TODO this should return 401/403
@@ -42,16 +47,17 @@ public class EventsBookingTests extends BaseTests {
 	}
 
 	@Test void testEventBookingsUpdate() {
+		String eventId = UUID.randomUUID().toString(); //TODO get date from conference?
 
-		eventsBookingPost(userToken, eventId, "{\"fullyBooked\":false,\"numberOccupied\":\"10\"}", document("eventsBookingPostWithAuthCreate"))
+		eventsBookingPost(userToken, eventId, "{\"fullyBooked\":true,\"numberOccupied\":\"11\"}", document("eventsBookingPostWithAuthCreate"))
 			.assertThat()
 			.statusCode(201)
-			.body(equalTo("{\"numberOccupied\":10,\"fullyBooked\":false}"));
+			.body(equalTo("{\"numberOccupied\":11,\"fullyBooked\":true}"));
 
 		//TODO verify that the created eventbooking exists in the conference?
 
 		//TODO check that updating an existing eventBooking works
-		eventsBookingPost(userToken, eventId, "{\"fullyBooked\":true,\"numberOccupied\":\"11\"}", document("eventsBookingPostWithAuthUpdate"))
+		eventsBookingPost(userToken, eventId, "{\"fullyBooked\":false,\"numberOccupied\":\"10\"}", document("eventsBookingPostWithAuthUpdate"))
 			.assertThat()
 			.statusCode(204)
 			.body(emptyString());
@@ -59,6 +65,7 @@ public class EventsBookingTests extends BaseTests {
 	}
 
 	//TODO limit overflow?
+	//TODO crosscheck with feedback?
 
 	private ValidatableResponse eventsBookingPost(String token, String eventId, String eventsBookingContent, RestDocumentationFilter documentationFilter) {
 		return given(this.spec).auth().oauth2(token)

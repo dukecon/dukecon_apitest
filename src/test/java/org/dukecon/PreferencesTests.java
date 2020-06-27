@@ -15,12 +15,14 @@ import static org.springframework.restdocs.restassured3.RestAssuredRestDocumenta
 
 public class PreferencesTests extends BaseTests {
 
-	private String userToken = gatherToken();
-	private String badToken = UUID.randomUUID().toString();
-	private String preferencesContentEmpty = "[]";
-	private String preferencesContent = generateStringFromResource("samples/preferences.json");
+	private final String userToken = new TokenGatherer().gatherToken();
+	private final String badToken = UUID.randomUUID().toString();
 
+	private final String preferencesContentEmpty = "[]";
+	private final String preferencesContent = generateStringFromResource("samples/preferences.json");
 
+	private final String pathToPreferences = "/rest/preferences";
+	private final String pathToFavorites = "/rest/favorites/javaland2019";
 
 	public PreferencesTests() throws IOException {
 	}
@@ -29,9 +31,9 @@ public class PreferencesTests extends BaseTests {
 
 	@Test
 	public void testPreferencesIsSecured() {
-		whenAuthenticatedAndContentTypeMatches(userToken, "/rest/preferences", ContentType.JSON.toString(), document("preferencesIsSecured"))
+		whenAuthenticatedAndContentTypeMatches(userToken, pathToPreferences, ContentType.JSON.toString(), document("preferencesIsSecured"))
 			.assertThat()
-		//TODO this should return 401/403?
+			//TODO this should return 401/403?
 			.statusCode(200);
 	}
 
@@ -44,12 +46,11 @@ public class PreferencesTests extends BaseTests {
 
 	@Test
 	public void testPreferencesSetEmpty() {
-
 		updatePreferences(userToken, preferencesContentEmpty, document("preferencesInit"))
 			.assertThat()
 			.statusCode(201);
 
-		whenAuthenticatedAndContentTypeMatches(userToken, "/rest/preferences", ContentType.JSON.toString(), document("preferencesInitCheck"))
+		whenAuthenticatedAndContentTypeMatches(userToken, pathToPreferences, ContentType.JSON.toString(), document("preferencesInitCheck"))
 			.assertThat()
 			.statusCode(200)
 			.body(notNullValue())
@@ -63,7 +64,7 @@ public class PreferencesTests extends BaseTests {
 			.assertThat()
 			.statusCode(201);
 
-		whenAuthenticatedAndContentTypeMatches(userToken, "/rest/preferences", ContentType.JSON.toString(), document("preferencesUpdateCheck"))
+		whenAuthenticatedAndContentTypeMatches(userToken, pathToPreferences, ContentType.JSON.toString(), document("preferencesUpdateCheck"))
 			.assertThat()
 			.statusCode(200)
 			.body(notNullValue());
@@ -74,7 +75,7 @@ public class PreferencesTests extends BaseTests {
 
 	@Test
 	public void testFavoritesAllSet() {
-		whenAuthenticatedAndContentTypeMatches(userToken, "/rest/favorites/javaland2019", ContentType.JSON.toString(), document("favoritesGetAll"))
+		whenAuthenticatedAndContentTypeMatches(userToken, pathToFavorites, ContentType.JSON.toString(), document("favoritesGetAll"))
 			.assertThat()
 			.statusCode(200)
 			.body(notNullValue());
@@ -86,7 +87,7 @@ public class PreferencesTests extends BaseTests {
 			.body(preferencesContent)
 			.contentType(ContentType.JSON)
 			.filter(documentationFilter)
-			.post("/rest/preferences")
+			.post(pathToPreferences)
 			.then();
 	}
 

@@ -21,7 +21,6 @@ import java.io.File;
 import java.io.IOException;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 public class BaseTests {
@@ -50,26 +49,6 @@ public class BaseTests {
 	@AfterEach
 	public void tearDown() {
 		this.restDocumentation.afterTest();
-	}
-
-	protected String gatherToken() {
-		Response response = given()
-			.config(RestAssured.config()
-				.encoderConfig(EncoderConfig.encoderConfig()
-					.encodeContentTypeAs("x-www-form-urlencoded",
-						ContentType.URLENC)))
-			.contentType("application/x-www-form-urlencoded; charset=UTF-8")
-			.formParam("grant_type", "client_credentials")
-			.formParam("client_id", "dukecon_api")
-			.formParam("client_secret", "97d8f2d3-d55c-46bd-aafd-bb4d9e058955")
-			.post("https://keycloak.dukecon.org/auth/realms/dukecon-latest/protocol/openid-connect/token");
-
-		response.then()
-			.statusCode(200);
-
-		JsonPath jsonPathEvaluator = response.jsonPath();
-
-		return jsonPathEvaluator.get("access_token");
 	}
 
 	protected ValidatableResponse whenAuthenticatedAndContentTypeMatches(String token, String path, String contentType, RestDocumentationFilter documentationFilter) {

@@ -1,0 +1,377 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "title": "The root schema",
+  "description": "The root schema comprises the entire JSON document.",
+  "default": {},
+  "examples": [
+    {
+      "id": "javaland2019",
+      "name": "JavaLand 2019",
+      "year": "2019",
+      "url": "http://javaland.dukecon.org/2019",
+      "homeUrl": "http://www.javaland.eu",
+      "homeTitle": null,
+      "imprint": {
+        "de": "https://www.javaland.eu/de/impressum/",
+        "en": "https://www.javaland.eu/en/imprint/"
+      },
+      "termsOfUse": {
+        "de": "https://www.javaland.eu/de/nutzungsbedingungen/",
+        "en": "https://www.javaland.eu/en/term-of-use/"
+      },
+      "privacy": {
+        "de": "https://www.javaland.eu/de/datenschutz/",
+        "en": "https://www.javaland.eu/en/privacy/"
+      },
+      "startDate": "2019-03-19",
+      "endDate": "2019-03-21",
+      "authEnabled": true,
+      "admin": "../rest/admin/javaland2019",
+      "forceUpdate": "../rest/conferences/update/javaland2019",
+      "conferences": "../rest/conferences/javaland2019",
+      "events": "../rest/eventsBooking/javaland2019",
+      "keycloak": "../rest/keycloak.json",
+      "favoritesExport": "../rest/favorites/javaland2019",
+      "feedbackServer": {
+        "active": true,
+        "timeSlotVisible": 10080
+      }
+    }
+  ],
+  "required": [
+    "id",
+    "name",
+    "year",
+    "url",
+    "homeUrl",
+    "homeTitle",
+    "imprint",
+    "termsOfUse",
+    "privacy",
+    "startDate",
+    "endDate",
+    "authEnabled",
+    "admin",
+    "forceUpdate",
+    "conferences",
+    "events",
+    "keycloak",
+    "favoritesExport",
+    "feedbackServer"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "id": {
+      "$id": "#/properties/id",
+      "type": "string",
+      "title": "The id schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": "",
+      "examples": [
+        "javaland2019"
+      ]
+    },
+    "name": {
+      "$id": "#/properties/name",
+      "type": "string",
+      "title": "The name schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": "",
+      "examples": [
+        "JavaLand 2019"
+      ]
+    },
+    "year": {
+      "$id": "#/properties/year",
+      "type": "string",
+      "title": "The year schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": "",
+      "examples": [
+        "2019"
+      ]
+    },
+    "url": {
+      "$id": "#/properties/url",
+      "type": "string",
+      "title": "The url schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": "",
+      "examples": [
+        "http://javaland.dukecon.org/2019"
+      ]
+    },
+    "homeUrl": {
+      "$id": "#/properties/homeUrl",
+      "type": "string",
+      "title": "The homeUrl schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": "",
+      "examples": [
+        "http://www.javaland.eu"
+      ]
+    },
+    "homeTitle": {
+      "$id": "#/properties/homeTitle",
+      "type": "null",
+      "title": "The homeTitle schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": null,
+      "examples": [
+        null
+      ]
+    },
+    "imprint": {
+      "$id": "#/properties/imprint",
+      "type": "object",
+      "title": "The imprint schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": {},
+      "examples": [
+        {
+          "de": "https://www.javaland.eu/de/impressum/",
+          "en": "https://www.javaland.eu/en/imprint/"
+        }
+      ],
+      "required": [
+        "de",
+        "en"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "de": {
+          "$id": "#/properties/imprint/properties/de",
+          "type": "string",
+          "title": "The de schema",
+          "description": "An explanation about the purpose of this instance.",
+          "default": "",
+          "examples": [
+            "https://www.javaland.eu/de/impressum/"
+          ]
+        },
+        "en": {
+          "$id": "#/properties/imprint/properties/en",
+          "type": "string",
+          "title": "The en schema",
+          "description": "An explanation about the purpose of this instance.",
+          "default": "",
+          "examples": [
+            "https://www.javaland.eu/en/imprint/"
+          ]
+        }
+      }
+    },
+    "termsOfUse": {
+      "$id": "#/properties/termsOfUse",
+      "type": "object",
+      "title": "The termsOfUse schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": {},
+      "examples": [
+        {
+          "de": "https://www.javaland.eu/de/nutzungsbedingungen/",
+          "en": "https://www.javaland.eu/en/term-of-use/"
+        }
+      ],
+      "required": [
+        "de",
+        "en"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "de": {
+          "$id": "#/properties/termsOfUse/properties/de",
+          "type": "string",
+          "title": "The de schema",
+          "description": "An explanation about the purpose of this instance.",
+          "default": "",
+          "examples": [
+            "https://www.javaland.eu/de/nutzungsbedingungen/"
+          ]
+        },
+        "en": {
+          "$id": "#/properties/termsOfUse/properties/en",
+          "type": "string",
+          "title": "The en schema",
+          "description": "An explanation about the purpose of this instance.",
+          "default": "",
+          "examples": [
+            "https://www.javaland.eu/en/term-of-use/"
+          ]
+        }
+      }
+    },
+    "privacy": {
+      "$id": "#/properties/privacy",
+      "type": "object",
+      "title": "The privacy schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": {},
+      "examples": [
+        {
+          "de": "https://www.javaland.eu/de/datenschutz/",
+          "en": "https://www.javaland.eu/en/privacy/"
+        }
+      ],
+      "required": [
+        "de",
+        "en"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "de": {
+          "$id": "#/properties/privacy/properties/de",
+          "type": "string",
+          "title": "The de schema",
+          "description": "An explanation about the purpose of this instance.",
+          "default": "",
+          "examples": [
+            "https://www.javaland.eu/de/datenschutz/"
+          ]
+        },
+        "en": {
+          "$id": "#/properties/privacy/properties/en",
+          "type": "string",
+          "title": "The en schema",
+          "description": "An explanation about the purpose of this instance.",
+          "default": "",
+          "examples": [
+            "https://www.javaland.eu/en/privacy/"
+          ]
+        }
+      }
+    },
+    "startDate": {
+      "$id": "#/properties/startDate",
+      "type": "string",
+      "title": "The startDate schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": "",
+      "examples": [
+        "2019-03-19"
+      ]
+    },
+    "endDate": {
+      "$id": "#/properties/endDate",
+      "type": "string",
+      "title": "The endDate schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": "",
+      "examples": [
+        "2019-03-21"
+      ]
+    },
+    "authEnabled": {
+      "$id": "#/properties/authEnabled",
+      "type": "boolean",
+      "title": "The authEnabled schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": false,
+      "examples": [
+        true
+      ]
+    },
+    "admin": {
+      "$id": "#/properties/admin",
+      "type": "string",
+      "title": "The admin schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": "",
+      "examples": [
+        "../rest/admin/javaland2019"
+      ]
+    },
+    "forceUpdate": {
+      "$id": "#/properties/forceUpdate",
+      "type": "string",
+      "title": "The forceUpdate schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": "",
+      "examples": [
+        "../rest/conferences/update/javaland2019"
+      ]
+    },
+    "conferences": {
+      "$id": "#/properties/conferences",
+      "type": "string",
+      "title": "The conferences schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": "",
+      "examples": [
+        "../rest/conferences/javaland2019"
+      ]
+    },
+    "events": {
+      "$id": "#/properties/events",
+      "type": "string",
+      "title": "The events schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": "",
+      "examples": [
+        "../rest/eventsBooking/javaland2019"
+      ]
+    },
+    "keycloak": {
+      "$id": "#/properties/keycloak",
+      "type": "string",
+      "title": "The keycloak schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": "",
+      "examples": [
+        "../rest/keycloak.json"
+      ]
+    },
+    "favoritesExport": {
+      "$id": "#/properties/favoritesExport",
+      "type": "string",
+      "title": "The favoritesExport schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": "",
+      "examples": [
+        "../rest/favorites/javaland2019"
+      ]
+    },
+    "feedbackServer": {
+      "$id": "#/properties/feedbackServer",
+      "type": "object",
+      "title": "The feedbackServer schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": {},
+      "examples": [
+        {
+          "active": true,
+          "timeSlotVisible": 10080
+        }
+      ],
+      "required": [
+        "active",
+        "timeSlotVisible"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "active": {
+          "$id": "#/properties/feedbackServer/properties/active",
+          "type": "boolean",
+          "title": "The active schema",
+          "description": "An explanation about the purpose of this instance.",
+          "default": false,
+          "examples": [
+            true
+          ]
+        },
+        "timeSlotVisible": {
+          "$id": "#/properties/feedbackServer/properties/timeSlotVisible",
+          "type": "integer",
+          "title": "The timeSlotVisible schema",
+          "description": "An explanation about the purpose of this instance.",
+          "default": 0,
+          "examples": [
+            10080
+          ]
+        }
+      }
+    }
+  }
+}

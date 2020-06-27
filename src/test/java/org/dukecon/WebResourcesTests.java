@@ -1,14 +1,9 @@
 package org.dukecon;
 
-import com.github.fge.jsonschema.SchemaVersion;
-import com.github.fge.jsonschema.cfg.ValidationConfiguration;
-import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import io.restassured.http.ContentType;
-import io.restassured.module.jsv.JsonSchemaValidator;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
-import static io.restassured.module.jsv.JsonSchemaValidatorSettings.settings;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
@@ -16,17 +11,17 @@ public class WebResourcesTests extends BaseTests {
 
 	private static String pathToInitJson = System.getProperty("dukecon.apitests.pathToInitJson");
 	private static String pathToImageResourcesJson = System.getProperty("dukecon.apitests.pathToImageResourcesJson");
-	private String pathToConferences = "/rest/conferences/javaland2019";
-	private String pathToStylesCss = "/rest/conferences/javaland2019/styles.css";
-	private String pathToFavicon = "/img/favicon.ico";
-	private String pathToKeycloakJson = "/rest/keycloak.json";
+	private static String pathToConferences = "/rest/conferences/javaland2019";
+	private static String pathToStylesCss = "/rest/conferences/javaland2019/styles.css";
+	private static String pathToFavicon = "/img/favicon.ico";
+	private static String pathToKeycloakJson = "/rest/keycloak.json";
 
 	@Test
 	public void testInitJson() {
-		whenUrlOkAndContentTypeMatches(pathToInitJson, ContentType.JSON.toString(),document("init"))
+		whenUrlOkAndContentTypeMatches(pathToInitJson, ContentType.JSON.toString(),document("initJson"))
 			.assertThat()
 			.statusCode(200)
-			.body(matchesJsonSchemaInClasspath("samples/init.json"));
+			.body(matchesJsonSchemaInClasspath("schemas/init.json"));
 	}
 
 	@Test
@@ -34,15 +29,16 @@ public class WebResourcesTests extends BaseTests {
 		whenUrlOkAndContentTypeMatches(pathToImageResourcesJson, ContentType.JSON.toString(),document("image-resources"))
 			.assertThat()
 			.statusCode(200)
-			.body(matchesJsonSchemaInClasspath("samples/image-resources.json").using(settings().with().jsonSchemaFactory()));
+			.body(matchesJsonSchemaInClasspath("schemas/image-resources.json"));
 	}
 
 		@Test
 	public void testConferences() {
-			whenUrlOkAndContentTypeMatches(pathToConferences, ContentType.JSON.toString(),document("conferences"))
+			whenUrlOkAndContentTypeMatches(pathToConferences, ContentType.JSON.toString(),document("conferencesJson"))
 				.assertThat()
 				.statusCode(200)
 				.body(notNullValue());
+			//TODO check body?
 	}
 
 	@Test
@@ -53,14 +49,16 @@ public class WebResourcesTests extends BaseTests {
 			.assertThat()
 			.statusCode(200)
 			.body(notNullValue());;
+		//TODO check body?
 	}
 
 	@Test
 	public void testStyles() {
-		whenUrlOkAndContentTypeMatches(pathToStylesCss, "text/css", document("styles"))
+		whenUrlOkAndContentTypeMatches(pathToStylesCss, "text/css", document("stylesCss"))
 			.assertThat()
 			.statusCode(200)
 			.body(notNullValue());
+		//TODO check body?
 	}
 
 	@Test
@@ -69,14 +67,15 @@ public class WebResourcesTests extends BaseTests {
 			.assertThat()
 			.statusCode(200)
 			.body(notNullValue());
+		  //TODO check body?
 	}
 
 	@Test
 	public void testKeycloakJson() {
-		whenUrlOkAndContentTypeMatches(pathToKeycloakJson, ContentType.JSON.toString(), document("keycloak"))
+		whenUrlOkAndContentTypeMatches(pathToKeycloakJson, ContentType.JSON.toString(), document("keycloakJson"))
 			.assertThat()
 			.statusCode(200)
-			.body(notNullValue());;
+			.body(matchesJsonSchemaInClasspath("schemas/keycloak.json"));;
 	}
 
 }
