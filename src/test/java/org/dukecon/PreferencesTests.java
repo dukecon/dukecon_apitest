@@ -4,6 +4,7 @@ import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import org.springframework.restdocs.restassured3.RestDocumentationFilter;
 
 import java.io.IOException;
@@ -15,7 +16,7 @@ import static org.springframework.restdocs.restassured3.RestAssuredRestDocumenta
 
 public class PreferencesTests extends BaseTests {
 
-	private final String userToken = new TokenGatherer().gatherToken();
+	private final String userToken = new TokenGatherer().gatherUserToken();
 	private final String badToken = UUID.randomUUID().toString();
 
 	private final String preferencesContentEmpty = "[]";
@@ -30,6 +31,7 @@ public class PreferencesTests extends BaseTests {
 	//TODO there is a cvs variant !
 
 	@Test
+	@EnabledIfSystemProperty(named = "dukecon.apitests.authEnabled", matches = "true")
 	public void testPreferencesIsSecured() {
 		whenAuthenticatedAndContentTypeMatches(userToken, pathToPreferences, ContentType.JSON.toString(), document("preferencesIsSecured"))
 			.assertThat()
@@ -38,6 +40,7 @@ public class PreferencesTests extends BaseTests {
 	}
 
 	@Test
+	@EnabledIfSystemProperty(named = "dukecon.apitests.authEnabled", matches = "true")
 	public void testPreferencesUpdateIsSecured() {
 		updatePreferences(badToken, preferencesContentEmpty, document("preferencesUpdateIsSecured"))
 			.assertThat()
@@ -83,7 +86,7 @@ public class PreferencesTests extends BaseTests {
 
 	private ValidatableResponse updatePreferences(String userToken, String preferencesContent, RestDocumentationFilter documentationFilter) {
 		return given(this.spec)
-			.auth().preemptive().oauth2(userToken)
+			.auth().oauth2(userToken)
 			.body(preferencesContent)
 			.contentType(ContentType.JSON)
 			.filter(documentationFilter)

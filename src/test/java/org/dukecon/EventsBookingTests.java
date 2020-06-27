@@ -3,13 +3,13 @@ package org.dukecon;
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import org.springframework.restdocs.restassured3.RestDocumentationFilter;
 
 import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
-import static io.restassured.module.jsv.JsonSchemaValidatorSettings.settings;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
@@ -17,7 +17,7 @@ public class EventsBookingTests extends BaseTests {
 
 	private final String badToken = UUID.randomUUID().toString();
 
-	private final String userToken = new TokenGatherer().gatherToken();
+	private final String userToken = new TokenGatherer().gatherUserToken();
 
 	@Test
 	public void testEventsBookingGet() {
@@ -36,7 +36,9 @@ public class EventsBookingTests extends BaseTests {
 			.body(matchesJsonSchemaInClasspath("schemas/eventsBooking.json"));
 	}
 
-	@Test void testEventBookingsUpdateIsSecured() {
+	@Test
+	@EnabledIfSystemProperty(named = "dukecon.apitests.authEnabled", matches = "true")
+	public void testEventBookingsUpdateIsSecured() {
 		String eventId = UUID.randomUUID().toString(); //TODO get date from conference?
 
 		eventsBookingPost(badToken, eventId, "{\"fullyBooked\":false,\"numberOccupied\":\"10\"}", document("eventsBookingPostWithBadAuthCreate"))
@@ -46,7 +48,8 @@ public class EventsBookingTests extends BaseTests {
 			.body(equalTo("{\"numberOccupied\":10,\"fullyBooked\":false}"));
 	}
 
-	@Test void testEventBookingsUpdate() {
+	@Test
+	public void testEventBookingsUpdate() {
 		String eventId = UUID.randomUUID().toString(); //TODO get date from conference?
 
 		eventsBookingPost(userToken, eventId, "{\"fullyBooked\":true,\"numberOccupied\":\"11\"}", document("eventsBookingPostWithAuthCreate"))

@@ -3,6 +3,7 @@ package org.dukecon;
 import io.restassured.http.ContentType;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 
 import java.util.UUID;
 
@@ -13,7 +14,7 @@ import static org.springframework.restdocs.restassured3.RestAssuredRestDocumenta
 public class FeedbackTests extends BaseTests {
 
 	private final String eventId = UUID.randomUUID().toString(); //TODO not validated, that the event exists in that conference??
-	private final String userToken = new TokenGatherer().gatherToken();
+	private final String userToken = new TokenGatherer().gatherUserToken();
 
 	private final String badToken = UUID.randomUUID().toString();
 
@@ -21,6 +22,7 @@ public class FeedbackTests extends BaseTests {
 	private final String pathToEventFeedback = String.format(pathToFeedback, eventId);
 
 	@Test
+	@EnabledIfSystemProperty(named = "dukecon.apitests.authEnabled", matches = "true")
 	public void testFeedbackGiveIsSecured() {
 
 		given(this.spec)
@@ -33,7 +35,6 @@ public class FeedbackTests extends BaseTests {
 			.assertThat()
 			.statusCode(401);
 
-		//TODO no get?
 	}
 
 	@Test
@@ -51,5 +52,5 @@ public class FeedbackTests extends BaseTests {
 			.body(Matchers.emptyString());
 	}
 
-		//TODO no get?
+	//TODO no get?
 }

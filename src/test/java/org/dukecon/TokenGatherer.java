@@ -10,9 +10,18 @@ import static io.restassured.RestAssured.given;
 
 public class TokenGatherer {
 
+	private final boolean authEnabled = Boolean.valueOf(System.getProperty("dukecon.apitests.authEnabled"));
+	private final String authTokenEndpoint = "https://keycloak.dukecon.org/auth/realms/dukecon-latest/protocol/openid-connect/token";
+	private final String authClientSecretUserRole = "97d8f2d3-d55c-46bd-aafd-bb4d9e058955";
+	private final String authClientIdUserRole = "dukecon_api";
+
 	public TokenGatherer() {	}
 
-	protected String gatherToken() {
+	protected String gatherUserToken() {
+		if(!authEnabled) {
+			return "securityIsDisabled";
+		}
+
 		Response response = given()
 			.config(RestAssured.config()
 				.encoderConfig(EncoderConfig.encoderConfig()
@@ -20,9 +29,9 @@ public class TokenGatherer {
 						ContentType.URLENC)))
 			.contentType("application/x-www-form-urlencoded; charset=UTF-8")
 			.formParam("grant_type", "client_credentials")
-			.formParam("client_id", "dukecon_api")
-			.formParam("client_secret", "97d8f2d3-d55c-46bd-aafd-bb4d9e058955")
-			.post("https://keycloak.dukecon.org/auth/realms/dukecon-latest/protocol/openid-connect/token");
+			.formParam("client_id", authClientIdUserRole)
+			.formParam("client_secret", authClientSecretUserRole)
+			.post(authTokenEndpoint);
 
 		response.then()
 			.statusCode(200);
