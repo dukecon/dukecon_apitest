@@ -72,7 +72,7 @@ public class BaseTests {
 		return jsonPathEvaluator.get("access_token");
 	}
 
-	protected ValidatableResponse whenAuthenticatedUrlOkAndContentTypeMatches(String token, String path, String contentType, RestDocumentationFilter documentationFilter) {
+	protected ValidatableResponse whenAuthenticatedAndContentTypeMatches(String token, String path, String contentType, RestDocumentationFilter documentationFilter) {
 		return whenUrlOkAndContentTypeMatchesBase(given(this.spec).filter(documentationFilter).auth().oauth2(token), path, contentType);
 	}
 
@@ -101,10 +101,7 @@ public class BaseTests {
 	private ValidatableResponse whenUrlOk(RequestSpecification spec, String path) {
 		return spec.when()
 			.get(path)
-			.then()
-			.assertThat()
-			.statusCode(200)
-			.body(notNullValue());
+			.then();
 	}
 
 	protected String generateStringFromResource(String path) throws IOException {
