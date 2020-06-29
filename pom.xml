@@ -20,10 +20,17 @@
         <dukecon.apitests.conferenceName>javaland</dukecon.apitests.conferenceName>
         <dukecon.apitests.conferenceYear>2019</dukecon.apitests.conferenceYear>
         <dukecon.apitests.baseurl>
-            https://latest.dukecon.org/${dukecon.apitests.conferenceName}/${dukecon.apitests.conferenceYear}
+            https://latest.dukecon.org
         </dukecon.apitests.baseurl>
-        <dukecon.apitests.pathToInitJson>/rest/init.json</dukecon.apitests.pathToInitJson>
-        <dukecon.apitests.pathToImageResourcesJson>/rest/image-resources.json</dukecon.apitests.pathToImageResourcesJson>
+        <dukecon.apitests.pathToInitJson>/${dukecon.apitests.conferenceName}/${dukecon.apitests.conferenceYear}/rest/init.json</dukecon.apitests.pathToInitJson>
+        <dukecon.apitests.pathToImageResourcesJson>/${dukecon.apitests.conferenceName}/${dukecon.apitests.conferenceYear}/rest/image-resources.json</dukecon.apitests.pathToImageResourcesJson>
+        <dukecon.apitests.pathToConferences>/rest/conferences</dukecon.apitests.pathToConferences>
+        <dukecon.apitests.pathToConferenceById>/${dukecon.apitests.conferenceName}/${dukecon.apitests.conferenceYear}/rest/conferences/${dukecon.apitests.conferenceName}${dukecon.apitests.conferenceYear}</dukecon.apitests.pathToConferenceById>
+        <dukecon.apitests.pathToConferenceUpdateById>/${dukecon.apitests.conferenceName}/${dukecon.apitests.conferenceYear}/rest/conferences/update/${dukecon.apitests.conferenceName}${dukecon.apitests.conferenceYear}</dukecon.apitests.pathToConferenceUpdateById>
+        <dukecon.apitests.pathToStylesCss>/${dukecon.apitests.conferenceName}/${dukecon.apitests.conferenceYear}/rest/conferences/${dukecon.apitests.conferenceName}${dukecon.apitests.conferenceYear}/styles.css</dukecon.apitests.pathToStylesCss>
+        <dukecon.apitests.pathToFavicon>/${dukecon.apitests.conferenceName}/${dukecon.apitests.conferenceYear}/img/favicon.ico</dukecon.apitests.pathToFavicon>
+        <dukecon.apitests.pathToKeycloakJson>/${dukecon.apitests.conferenceName}/${dukecon.apitests.conferenceYear}/rest/keycloak.json</dukecon.apitests.pathToKeycloakJson>
+        <dukecon.apitests.pathToSpeakerImage>/${dukecon.apitests.conferenceName}/${dukecon.apitests.conferenceYear}/rest/speaker/images/c4ab6b88490cb4da5f6ea95dae485095</dukecon.apitests.pathToSpeakerImage>
     </properties>
 
     <dependencies>
@@ -90,6 +97,13 @@
                             <dukecon.apitests.pathToInitJson>${dukecon.apitests.pathToInitJson}
                             </dukecon.apitests.pathToInitJson>
                             <dukecon.apitests.pathToImageResourcesJson>${dukecon.apitests.pathToImageResourcesJson}</dukecon.apitests.pathToImageResourcesJson>
+                            <dukecon.apitests.pathToConferences>${dukecon.apitests.pathToConferences}</dukecon.apitests.pathToConferences>
+                            <dukecon.apitests.pathToConferenceById>${dukecon.apitests.pathToConferenceById}</dukecon.apitests.pathToConferenceById>
+                            <dukecon.apitests.pathToConferenceUpdateById>${dukecon.apitests.pathToConferenceUpdateById}</dukecon.apitests.pathToConferenceUpdateById>
+                            <dukecon.apitests.pathToStylesCss>${dukecon.apitests.pathToStylesCss}</dukecon.apitests.pathToStylesCss>
+                            <dukecon.apitests.pathToFavicon>${dukecon.apitests.pathToFavicon}</dukecon.apitests.pathToFavicon>
+                            <dukecon.apitests.pathToKeycloakJson>${dukecon.apitests.pathToKeycloakJson}</dukecon.apitests.pathToKeycloakJson>
+                            <dukecon.apitests.pathToSpeakerImage>${dukecon.apitests.pathToSpeakerImage}</dukecon.apitests.pathToSpeakerImage>
                         </systemPropertyVariables>
                     </configuration>
                 </plugin>
@@ -147,12 +161,17 @@
         <profile>
             <id>local</id>
             <properties>
+                <dukecon.apitests.authEnabled>false</dukecon.apitests.authEnabled>
                 <dukecon.apitests.conferenceYear>2016</dukecon.apitests.conferenceYear>
                 <dukecon.apitests.baseurl>http://localhost:8080/rest</dukecon.apitests.baseurl>
                 <dukecon.apitests.pathToInitJson>
                     /init/${dukecon.apitests.conferenceName}/${dukecon.apitests.conferenceYear}
                 </dukecon.apitests.pathToInitJson>
                 <dukecon.apitests.pathToImageResourcesJson>/image-resources/${dukecon.apitests.conferenceName}/${dukecon.apitests.conferenceYear}</dukecon.apitests.pathToImageResourcesJson>
+                <dukecon.apitests.pathToConferenceById>/conferences/${dukecon.apitests.conferenceName}${dukecon.apitests.conferenceYear}</dukecon.apitests.pathToConferenceById>
+                <dukecon.apitests.pathToStylesCss>/conferences/${dukecon.apitests.conferenceName}${dukecon.apitests.conferenceYear}/styles.css</dukecon.apitests.pathToStylesCss>
+                <dukecon.apitests.pathToFavicon>/img/favicon.ico</dukecon.apitests.pathToFavicon>
+                <dukecon.apitests.pathToKeycloakJson>/keycloak.json</dukecon.apitests.pathToKeycloakJson>
             </properties>
         </profile>
         <profile>

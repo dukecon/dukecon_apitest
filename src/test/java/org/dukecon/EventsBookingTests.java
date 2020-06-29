@@ -18,10 +18,11 @@ public class EventsBookingTests extends BaseTests {
 	private final String badToken = UUID.randomUUID().toString();
 
 	private final String userToken = new TokenGatherer().gatherUserToken();
+	private static String pathToEventsBooking = "/javaland/2019/rest/eventsBooking/javaland2019";
 
 	@Test
 	public void testEventsBookingGet() {
-		whenUrlOkAndContentTypeMatches("/rest/eventsBooking/javaland2019", ContentType.JSON.toString(), document("eventsBookingGet"))
+		whenUrlOkAndContentTypeMatches(pathToEventsBooking, ContentType.JSON.toString(), document("eventsBookingGet"))
 			.assertThat()
 			.statusCode(200)
 			.body(matchesJsonSchemaInClasspath("schemas/eventsBooking.json"));
@@ -29,7 +30,7 @@ public class EventsBookingTests extends BaseTests {
 
 	@Test
 	public void testEventsBookingGetAuthenticated() {
-		whenAuthenticatedAndContentTypeMatches(userToken,"/rest/eventsBooking/javaland2019", ContentType.JSON.toString(), document("eventsBookingGetWithAuth"))
+		whenAuthenticatedAndContentTypeMatches(userToken,pathToEventsBooking, ContentType.JSON.toString(), document("eventsBookingGetWithAuth"))
 			.assertThat()
 			.statusCode(200)
 			.and()
@@ -75,7 +76,7 @@ public class EventsBookingTests extends BaseTests {
 			.body(eventsBookingContent)
 			.contentType(ContentType.JSON)
 			.filter(documentationFilter)
-			.post(String.format("rest/eventsBooking/javaland2019/%s",eventId))
+			.post(String.format("%s/%s",pathToEventsBooking,eventId))
 			.then();
 	}
 }

@@ -22,8 +22,8 @@ public class PreferencesTests extends BaseTests {
 	private final String preferencesContentEmpty = "[]";
 	private final String preferencesContent = generateStringFromResource("samples/preferences.json");
 
-	private final String pathToPreferences = "/rest/preferences";
-	private final String pathToFavorites = "/rest/favorites/javaland2019";
+	private final String pathToPreferences = "/javaland/2019/rest/preferences";
+	private final String pathToFavorites = "/javaland/2019/rest/favorites/javaland2019";
 
 	public PreferencesTests() throws IOException {
 	}

@@ -11,10 +11,12 @@ public class WebResourcesTests extends BaseTests {
 
 	private static String pathToInitJson = System.getProperty("dukecon.apitests.pathToInitJson");
 	private static String pathToImageResourcesJson = System.getProperty("dukecon.apitests.pathToImageResourcesJson");
-	private static String pathToConferences = "/rest/conferences/javaland2019";
-	private static String pathToStylesCss = "/rest/conferences/javaland2019/styles.css";
-	private static String pathToFavicon = "/img/favicon.ico";
-	private static String pathToKeycloakJson = "/rest/keycloak.json";
+	private static String pathToFavicon = System.getProperty("dukecon.apitests.pathToFavicon");
+	private static String pathToKeycloakJson = System.getProperty("dukecon.apitests.pathToKeycloakJson");
+
+	private static String pathToSpeakerImage = System.getProperty("dukecon.apitests.pathToSpeakerImage");
+
+	private static String pathToStylesCss = System.getProperty("dukecon.apitests.pathToStylesCss");
 
 	@Test
 	public void testInitJson() {
@@ -32,20 +34,12 @@ public class WebResourcesTests extends BaseTests {
 			.body(matchesJsonSchemaInClasspath("schemas/image-resources.json"));
 	}
 
-		@Test
-	public void testConferences() {
-			whenUrlOkAndContentTypeMatches(pathToConferences, ContentType.JSON.toString(),document("conferencesJson"))
-				.assertThat()
-				.statusCode(200)
-				.body(notNullValue());
-			//TODO check body?
-	}
-
 	@Test
 	public void testSpeakerImage() {
+		//@ ignore when run without apache?
 		//TODO content type in accept header is blocked by apache?
 		//TODO get image from conferences?
-		whenUrlOk("/rest/speaker/images/c4ab6b88490cb4da5f6ea95dae485095", document("speaker-image"))
+		whenUrlOk(pathToSpeakerImage, document("speaker-image"))
 			.assertThat()
 			.statusCode(200)
 			.body(notNullValue());;
@@ -62,6 +56,7 @@ public class WebResourcesTests extends BaseTests {
 	}
 
 	@Test
+	//@ ignore when run without apache?
 	public void testFavicon() {
 		whenUrlOkAndContentTypeMatches(pathToFavicon, "image/x-icon", document("favicon"))
 			.assertThat()

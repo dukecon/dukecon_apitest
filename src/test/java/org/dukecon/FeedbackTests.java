@@ -45,7 +45,7 @@ public class FeedbackTests extends BaseTests {
 			.body("{\"comment\":\"test\",\"rating\":3}")
 			.contentType(ContentType.JSON)
 			.auth().oauth2(userToken)
-			.put(String.format("/rest/feedback/event/javaland2019/%s",eventId))
+			.put(pathToEventFeedback)
 			.then()
 			.assertThat()
 			.statusCode(201) //TODO always created???
