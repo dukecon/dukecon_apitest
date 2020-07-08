@@ -26,6 +26,8 @@
         <dukecon.apitests.pathToImageResourcesJson>/${dukecon.apitests.conferenceName}/${dukecon.apitests.conferenceYear}/rest/image-resources.json</dukecon.apitests.pathToImageResourcesJson>
         <dukecon.apitests.pathToConferences>/rest/conferences</dukecon.apitests.pathToConferences>
         <dukecon.apitests.pathToConferenceById>/${dukecon.apitests.conferenceName}/${dukecon.apitests.conferenceYear}/rest/conferences/${dukecon.apitests.conferenceName}${dukecon.apitests.conferenceYear}</dukecon.apitests.pathToConferenceById>
+        <dukecon.apitests.pathToConferenceByIdEvents>/${dukecon.apitests.conferenceName}/${dukecon.apitests.conferenceYear}/rest/conferences/${dukecon.apitests.conferenceName}${dukecon.apitests.conferenceYear}/events</dukecon.apitests.pathToConferenceByIdEvents>
+        <dukecon.apitests.pathToConferenceByIdSpeakers>/${dukecon.apitests.conferenceName}/${dukecon.apitests.conferenceYear}/rest/conferences/${dukecon.apitests.conferenceName}${dukecon.apitests.conferenceYear}/speakers</dukecon.apitests.pathToConferenceByIdSpeakers>
         <dukecon.apitests.pathToConferenceUpdateById>/${dukecon.apitests.conferenceName}/${dukecon.apitests.conferenceYear}/rest/conferences/update/${dukecon.apitests.conferenceName}${dukecon.apitests.conferenceYear}</dukecon.apitests.pathToConferenceUpdateById>
         <dukecon.apitests.pathToStylesCss>/${dukecon.apitests.conferenceName}/${dukecon.apitests.conferenceYear}/rest/conferences/${dukecon.apitests.conferenceName}${dukecon.apitests.conferenceYear}/styles.css</dukecon.apitests.pathToStylesCss>
         <dukecon.apitests.pathToFavicon>/${dukecon.apitests.conferenceName}/${dukecon.apitests.conferenceYear}/img/favicon.ico</dukecon.apitests.pathToFavicon>
@@ -99,6 +101,8 @@
                             <dukecon.apitests.pathToImageResourcesJson>${dukecon.apitests.pathToImageResourcesJson}</dukecon.apitests.pathToImageResourcesJson>
                             <dukecon.apitests.pathToConferences>${dukecon.apitests.pathToConferences}</dukecon.apitests.pathToConferences>
                             <dukecon.apitests.pathToConferenceById>${dukecon.apitests.pathToConferenceById}</dukecon.apitests.pathToConferenceById>
+                            <dukecon.apitests.pathToConferenceByIdEvents>${dukecon.apitests.pathToConferenceByIdEvents}</dukecon.apitests.pathToConferenceByIdEvents>
+                            <dukecon.apitests.pathToConferenceByIdSpeakers>${dukecon.apitests.pathToConferenceByIdSpeakers}</dukecon.apitests.pathToConferenceByIdSpeakers>
                             <dukecon.apitests.pathToConferenceUpdateById>${dukecon.apitests.pathToConferenceUpdateById}</dukecon.apitests.pathToConferenceUpdateById>
                             <dukecon.apitests.pathToStylesCss>${dukecon.apitests.pathToStylesCss}</dukecon.apitests.pathToStylesCss>
                             <dukecon.apitests.pathToFavicon>${dukecon.apitests.pathToFavicon}</dukecon.apitests.pathToFavicon>
@@ -108,8 +112,16 @@
                     </configuration>
                 </plugin>
                 <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
                     <version>3.0.2</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>test-jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
                 <plugin>
                     <artifactId>maven-install-plugin</artifactId>

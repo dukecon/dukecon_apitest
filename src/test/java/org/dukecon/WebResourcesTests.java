@@ -1,6 +1,7 @@
 package org.dukecon;
 
 import io.restassured.http.ContentType;
+import org.dukecon.support.BaseTests;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;

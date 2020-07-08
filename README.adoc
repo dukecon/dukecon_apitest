@@ -8,3 +8,7 @@ Select a profile (latest, local, testing to specify a stage to test.
 
 Spring Rest Docs is used to gather all run http-requests and responses.
 See *target/generated-snippets* after a test run.
+
+These snippets are used here:
+
+First we

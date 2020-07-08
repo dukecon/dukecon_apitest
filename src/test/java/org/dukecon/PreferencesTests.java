@@ -2,6 +2,8 @@ package org.dukecon;
 
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
+import org.dukecon.support.BaseTests;
+import org.dukecon.support.TokenGatherer;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIfSystemProperty;

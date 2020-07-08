@@ -1,12 +1,8 @@
-package org.dukecon;
+package org.dukecon.support;
 
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.config.EncoderConfig;
-import io.restassured.http.ContentType;
 import io.restassured.parsing.Parser;
-import io.restassured.path.json.JsonPath;
-import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import org.apache.commons.io.FileUtils;
@@ -62,13 +58,6 @@ public class BaseTests {
 	protected ValidatableResponse whenUrlOk(String path, RestDocumentationFilter documentationFilter) {
 		return whenUrlOk(given(this.spec).filter(documentationFilter),
 			path);
-	}
-
-	private RestDocumentationFilter getDefaultRestDocumentationFilter(RestDocumentationFilter documentationFilter) {
-		if (documentationFilter == null) {
-			documentationFilter = document("default");
-		}
-		return documentationFilter;
 	}
 
 	private ValidatableResponse whenUrlOkAndContentTypeMatchesBase(RequestSpecification spec, String path, String contentType) {

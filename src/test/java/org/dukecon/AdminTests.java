@@ -2,7 +2,6 @@ package org.dukecon;
 
 public class AdminTests {
 
-	//Find out all about this endpoint
-	//TODO ./rest/admin/javaland2019
+	//TODO Resource is not used on client side, remove from server
 
 }

@@ -2,6 +2,8 @@ package org.dukecon;
 
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
+import org.dukecon.support.BaseTests;
+import org.dukecon.support.TokenGatherer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import org.springframework.restdocs.restassured3.RestDocumentationFilter;
@@ -10,7 +12,8 @@ import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.emptyString;
+import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 public class EventsBookingTests extends BaseTests {
@@ -18,6 +21,7 @@ public class EventsBookingTests extends BaseTests {
 	private final String badToken = UUID.randomUUID().toString();
 
 	private final String userToken = new TokenGatherer().gatherUserToken();
+	private final String adminToken = new TokenGatherer().gatherAdminToken();
 	private static String pathToEventsBooking = "/javaland/2019/rest/eventsBooking/javaland2019";
 
 	@Test
@@ -39,10 +43,24 @@ public class EventsBookingTests extends BaseTests {
 
 	@Test
 	@EnabledIfSystemProperty(named = "dukecon.apitests.authEnabled", matches = "true")
-	public void testEventBookingsUpdateIsSecured() {
+	public void testEventBookingsUpdateIsInGeneralSecured() {
+		String eventId = UUID.randomUUID().toString(); // TODO get date from conference?
+
+		eventsBookingPost(badToken, eventId, "{\"fullyBooked\":false,\"numberOccupied\":\"10\"}",
+			document("eventsBookingPostWithBadAuthCreate"))
+			.assertThat()
+			//TODO this should return 401/403
+			.statusCode(201)
+			.body(equalTo("{\"numberOccupied\":10,\"fullyBooked\":false}"));
+	}
+
+	@Test
+	@EnabledIfSystemProperty(named = "dukecon.apitests.authEnabled", matches = "true")
+	public void testEventBookingsUpdateIsAdminSecured() {
 		String eventId = UUID.randomUUID().toString(); //TODO get date from conference?
 
-		eventsBookingPost(badToken, eventId, "{\"fullyBooked\":false,\"numberOccupied\":\"10\"}", document("eventsBookingPostWithBadAuthCreate"))
+		eventsBookingPost(userToken, eventId, "{\"fullyBooked\":false,\"numberOccupied\":\"10\"}",
+			document("eventsBookingPostWithUserAuthCreate"))
 			.assertThat()
 			//TODO this should return 401/403
 			.statusCode(201)
@@ -70,7 +88,6 @@ public class EventsBookingTests extends BaseTests {
 
 	//TODO limit overflow?
 	//TODO crosscheck with feedback?
-
 	private ValidatableResponse eventsBookingPost(String token, String eventId, String eventsBookingContent, RestDocumentationFilter documentationFilter) {
 		return given(this.spec).auth().oauth2(token)
 			.body(eventsBookingContent)
