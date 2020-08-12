@@ -1,64 +1,75 @@
 package org.dukecon;
 
-import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import io.restassured.parsing.Parser;
-import io.restassured.response.ValidatableResponse;
-import org.hamcrest.Matchers;
-import org.junit.jupiter.api.BeforeEach;
+import org.dukecon.support.BaseTests;
 import org.junit.jupiter.api.Test;
 
-import static io.restassured.RestAssured.when;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
-public class WebResourcesTests {
+public class WebResourcesTests extends BaseTests {
 
-	private static String baseUrl
-			= System.getProperty("dukecon.apitests.baseurl",
-			"https://latest.dukecon.org/javaland/2019");
-
-	@BeforeEach
-	public void setup() {
-		System.out.println ("Testing '" + baseUrl + "'");
-		RestAssured.baseURI = baseUrl;
-		RestAssured.port = 443;
-		RestAssured.registerParser("text/css", Parser.TEXT);
-	}
+	private static String pathToInitJson = System.getProperty("dukecon.apitests.pathToInitJson");
+	private static String pathToImageResourcesJson = System.getProperty("dukecon.apitests.pathToImageResourcesJson");
+	private static String pathToFavicon = System.getProperty("dukecon.apitests.pathToFavicon");
+	private static String pathToKeycloakJson = System.getProperty("dukecon.apitests.pathToKeycloakJson");
+	private static String pathToSpeakerImage = System.getProperty("dukecon.apitests.pathToSpeakerImage");
+	private static String pathToStylesCss = System.getProperty("dukecon.apitests.pathToStylesCss");
 
 	@Test
-	public void testStaticServerInterface() {
-		verfyInitJson(
-			whenUrlOkAndContentTypeMatches("/rest/init.json", ContentType.JSON.toString())
-		);
-		whenUrlOkAndContentTypeMatches("/rest/image-resources.json", ContentType.JSON.toString());
-
-		whenUrlOkAndContentTypeMatches("/rest/speaker/images/c4ab6b88490cb4da5f6ea95dae485095","image/png");
-
-		whenUrlOkAndContentTypeMatches("/rest/conferences/javaland2019", ContentType.JSON.toString());
-		whenUrlOkAndContentTypeMatches("/rest/conferences/javaland2019/styles.css", "text/css");
-
-		whenUrlOkAndContentTypeMatches("/img/favicon.ico", "image/x-icon");
-	}
-
-	@Test
-	public void testDynamicServerInterface() {
-		whenUrlOkAndContentTypeMatches("/rest/keycloak.json", ContentType.JSON.toString());
-
-		whenUrlOkAndContentTypeMatches("/rest/eventsBooking/javaland2019", ContentType.JSON.toString());
-	}
-
-	private void verfyInitJson(ValidatableResponse response) {
-			response.body("id", Matchers.notNullValue());
-	}
-
-	private ValidatableResponse whenUrlOkAndContentTypeMatches(String path, String contentType) {
-		return when()
-			.get(path).
-			then()
+	public void testInitJson() {
+		whenUrlOkAndContentTypeMatches(pathToInitJson, ContentType.JSON.toString(),document("initJson"))
 			.assertThat()
 			.statusCode(200)
-			.contentType(contentType)
+			.body(matchesJsonSchemaInClasspath("schemas/init.json"));
+	}
+
+	@Test
+	public void testImageResourceJson() {
+		whenUrlOkAndContentTypeMatches(pathToImageResourcesJson, ContentType.JSON.toString(),document("image-resources"))
+			.assertThat()
+			.statusCode(200)
+			.body(matchesJsonSchemaInClasspath("schemas/image-resources.json"));
+	}
+
+	@Test
+	public void testSpeakerImage() {
+		//@ ignore when run without apache?
+		//TODO content type in accept header is blocked by apache?
+		//TODO get image from conferences?
+		whenUrlOk(pathToSpeakerImage, document("speaker-image"))
+			.assertThat()
+			.statusCode(200)
+			.body(notNullValue());;
+		//TODO check body?
+	}
+
+	@Test
+	public void testStyles() {
+		whenUrlOkAndContentTypeMatches(pathToStylesCss, "text/css", document("stylesCss"))
+			.assertThat()
+			.statusCode(200)
 			.body(notNullValue());
+		//TODO check body?
+	}
+
+	@Test
+	//@ ignore when run without apache?
+	public void testFavicon() {
+		whenUrlOkAndContentTypeMatches(pathToFavicon, "image/x-icon", document("favicon"))
+			.assertThat()
+			.statusCode(200)
+			.body(notNullValue());
+		  //TODO check body?
+	}
+
+	@Test
+	public void testKeycloakJson() {
+		whenUrlOkAndContentTypeMatches(pathToKeycloakJson, ContentType.JSON.toString(), document("keycloakJson"))
+			.assertThat()
+			.statusCode(200)
+			.body(matchesJsonSchemaInClasspath("schemas/keycloak.json"));;
 	}
 
 }
