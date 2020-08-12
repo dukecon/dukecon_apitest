@@ -22,12 +22,12 @@ public class FeedbackTests extends BaseTests {
 	private final String userToken = new TokenGatherer().gatherUserToken();
 
 	private final String pathToFeedback = "/rest/feedback/event/javaland2019/%s";
-	private final String pathToEventFeedback = String.format(pathToFeedback, eventId);
+	private final String pathToFeedbackEvent = String.format(pathToFeedback, eventId);
 
 	//TODO future plans: read feedback, verify?
 
 	@Test
-	@EnabledIfSystemProperty(named = "dukecon.apitests.authEnabled", matches = "true")
+	@EnabledIfSystemProperty(named = "dukecon.apitests.auth.enabled", matches = "true")
 	public void testFeedbackGiveIsSecured() {
 		putFeedback(badToken, document("feedbackPutNotAuthorized"))
 			.assertThat()
@@ -48,7 +48,7 @@ public class FeedbackTests extends BaseTests {
 			.body("{\"comment\":\"test\",\"rating\":3}")
 			.contentType(ContentType.JSON)
 			.auth().oauth2(token)
-			.put(pathToEventFeedback)
+			.put(pathToFeedbackEvent)
 			.then();
 	}
 

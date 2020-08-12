@@ -10,12 +10,13 @@ import static io.restassured.RestAssured.given;
 
 public class TokenGatherer {
 
-	private final boolean authEnabled = Boolean.valueOf(System.getProperty("dukecon.apitests.authEnabled"));
-	private final String authTokenEndpoint = "https://keycloak.dukecon.org/auth/realms/dukecon-latest/protocol/openid-connect/token";
-	private final String authClientSecretUserRole = "97d8f2d3-d55c-46bd-aafd-bb4d9e058955";
-	private final String authClientSecretAdminRole = "61ba244a-70a3-47c2-8c11-bdb0e7a1c5c4";
-	private final String authClientIdUserRole = "dukecon_api_user";
-	private final String authClientIdAdminRole = "dukecon_api_admin";
+	private final boolean authEnabled = Boolean.valueOf(System.getProperty("dukecon.apitests.auth.enabled"));
+
+	private final String authTokenEndpoint = System.getProperty("dukecon.apitests.auth.tokenEndpoint");
+	private final String authClientIdUserRole = System.getProperty("dukecon.apitests.auth.userToken.clientId");
+	private final String authClientSecretUserRole = System.getProperty("dukecon.apitests.auth.userToken.secret");
+	private final String authClientIdAdminRole = System.getProperty("dukecon.apitests.auth.adminToken.clientId");
+	private final String authClientSecretAdminRole = System.getProperty("dukecon.apitests.auth.adminToken.secret");
 
 	public TokenGatherer() {	}
 

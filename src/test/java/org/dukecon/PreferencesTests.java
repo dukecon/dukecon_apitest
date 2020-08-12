@@ -33,7 +33,7 @@ public class PreferencesTests extends BaseTests {
 	//TODO there is a cvs variant !
 
 	@Test
-	@EnabledIfSystemProperty(named = "dukecon.apitests.authEnabled", matches = "true")
+	@EnabledIfSystemProperty(named = "dukecon.apitests.auth.enabled", matches = "true")
 	public void testPreferencesIsSecured() {
 		whenAuthenticatedAndContentTypeMatches(userToken, pathToPreferences, ContentType.JSON.toString(), document("preferencesIsSecured"))
 			.assertThat()
@@ -42,7 +42,7 @@ public class PreferencesTests extends BaseTests {
 	}
 
 	@Test
-	@EnabledIfSystemProperty(named = "dukecon.apitests.authEnabled", matches = "true")
+	@EnabledIfSystemProperty(named = "dukecon.apitests.auth.enabled", matches = "true")
 	public void testPreferencesUpdateIsSecured() {
 		updatePreferences(badToken, preferencesContentEmpty, document("preferencesUpdateIsSecured"))
 			.assertThat()

@@ -15,15 +15,21 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-
-        <dukecon.apitests.authEnabled>true</dukecon.apitests.authEnabled>
+        <dukecon.apitests.auth.enabled>true</dukecon.apitests.auth.enabled>
         <dukecon.apitests.conferenceName>javaland</dukecon.apitests.conferenceName>
         <dukecon.apitests.conferenceYear>2019</dukecon.apitests.conferenceYear>
         <dukecon.apitests.baseurl>
             https://latest.dukecon.org
         </dukecon.apitests.baseurl>
+        <dukecon.apitests.auth.tokenEndpoint>https://keycloak.dukecon.org/auth/realms/dukecon-latest/protocol/openid-connect/token</dukecon.apitests.auth.tokenEndpoint>
+        <dukecon.apitests.auth.userToken.clientId>dukecon_api_user</dukecon.apitests.auth.userToken.clientId>
+        <dukecon.apitests.auth.userToken.secret>97d8f2d3-d55c-46bd-aafd-bb4d9e058955</dukecon.apitests.auth.userToken.secret>
+        <dukecon.apitests.auth.adminToken.clientId>dukecon_api_admin</dukecon.apitests.auth.adminToken.clientId>
+        <dukecon.apitests.auth.adminToken.secret>61ba244a-70a3-47c2-8c11-bdb0e7a1c5c4</dukecon.apitests.auth.adminToken.secret>
+        <dukecon.apitests.pathToFilters>/${dukecon.apitests.conferenceName}/${dukecon.apitests.conferenceYear}/rest/filters</dukecon.apitests.pathToFilters>
         <dukecon.apitests.pathToInitJson>/${dukecon.apitests.conferenceName}/${dukecon.apitests.conferenceYear}/rest/init.json</dukecon.apitests.pathToInitJson>
         <dukecon.apitests.pathToImageResourcesJson>/${dukecon.apitests.conferenceName}/${dukecon.apitests.conferenceYear}/rest/image-resources.json</dukecon.apitests.pathToImageResourcesJson>
+        <dukecon.apitests.pathToEventsBooking>/${dukecon.apitests.conferenceName}/${dukecon.apitests.conferenceYear}/rest/eventsBooking/${dukecon.apitests.conferenceName}${dukecon.apitests.conferenceYear}</dukecon.apitests.pathToEventsBooking>
         <dukecon.apitests.pathToConferences>/rest/conferences</dukecon.apitests.pathToConferences>
         <dukecon.apitests.pathToConferenceById>/${dukecon.apitests.conferenceName}/${dukecon.apitests.conferenceYear}/rest/conferences/${dukecon.apitests.conferenceName}${dukecon.apitests.conferenceYear}</dukecon.apitests.pathToConferenceById>
         <dukecon.apitests.pathToConferenceByIdEvents>/${dukecon.apitests.conferenceName}/${dukecon.apitests.conferenceYear}/rest/conferences/${dukecon.apitests.conferenceName}${dukecon.apitests.conferenceYear}/events</dukecon.apitests.pathToConferenceByIdEvents>
@@ -90,7 +96,12 @@
                     <version>2.22.1</version>
                     <configuration>
                         <systemPropertyVariables>
-                            <dukecon.apitests.authEnabled>${dukecon.apitests.authEnabled}</dukecon.apitests.authEnabled>
+                            <dukecon.apitests.auth.enabled>${dukecon.apitests.auth.enabled}</dukecon.apitests.auth.enabled>
+                            <dukecon.apitests.auth.tokenEndpoint>${dukecon.apitests.auth.tokenEndpoint}</dukecon.apitests.auth.tokenEndpoint>
+                            <dukecon.apitests.auth.userToken.clientId>${dukecon.apitests.auth.userToken.clientId}</dukecon.apitests.auth.userToken.clientId>
+                            <dukecon.apitests.auth.userToken.secret>${dukecon.apitests.auth.userToken.secret}</dukecon.apitests.auth.userToken.secret>
+                            <dukecon.apitests.auth.adminToken.clientId>${dukecon.apitests.auth.adminToken.clientId}</dukecon.apitests.auth.adminToken.clientId>
+                            <dukecon.apitests.auth.adminToken.secret>${dukecon.apitests.auth.adminToken.secret}</dukecon.apitests.auth.adminToken.secret>
                             <dukecon.apitests.conferenceName>${dukecon.apitests.conferenceName}
                             </dukecon.apitests.conferenceName>
                             <dukecon.apitests.conferenceYear>${dukecon.apitests.conferenceYear}
@@ -98,7 +109,9 @@
                             <dukecon.apitests.baseurl>${dukecon.apitests.baseurl}</dukecon.apitests.baseurl>
                             <dukecon.apitests.pathToInitJson>${dukecon.apitests.pathToInitJson}
                             </dukecon.apitests.pathToInitJson>
+                            <dukecon.apitests.pathToFilters>${dukecon.apitests.pathToFilters}</dukecon.apitests.pathToFilters>
                             <dukecon.apitests.pathToImageResourcesJson>${dukecon.apitests.pathToImageResourcesJson}</dukecon.apitests.pathToImageResourcesJson>
+                            <dukecon.apitests.pathToEventsBooking>${dukecon.apitests.pathToEventsBooking}</dukecon.apitests.pathToEventsBooking>
                             <dukecon.apitests.pathToConferences>${dukecon.apitests.pathToConferences}</dukecon.apitests.pathToConferences>
                             <dukecon.apitests.pathToConferenceById>${dukecon.apitests.pathToConferenceById}</dukecon.apitests.pathToConferenceById>
                             <dukecon.apitests.pathToConferenceByIdEvents>${dukecon.apitests.pathToConferenceByIdEvents}</dukecon.apitests.pathToConferenceByIdEvents>
@@ -173,7 +186,7 @@
         <profile>
             <id>local</id>
             <properties>
-                <dukecon.apitests.authEnabled>false</dukecon.apitests.authEnabled>
+                <dukecon.apitests.auth.enabled>false</dukecon.apitests.auth.enabled>
                 <dukecon.apitests.conferenceYear>2016</dukecon.apitests.conferenceYear>
                 <dukecon.apitests.baseurl>http://localhost:8080/rest</dukecon.apitests.baseurl>
                 <dukecon.apitests.pathToInitJson>

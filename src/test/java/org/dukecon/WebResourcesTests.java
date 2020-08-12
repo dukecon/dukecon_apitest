@@ -14,9 +14,7 @@ public class WebResourcesTests extends BaseTests {
 	private static String pathToImageResourcesJson = System.getProperty("dukecon.apitests.pathToImageResourcesJson");
 	private static String pathToFavicon = System.getProperty("dukecon.apitests.pathToFavicon");
 	private static String pathToKeycloakJson = System.getProperty("dukecon.apitests.pathToKeycloakJson");
-
 	private static String pathToSpeakerImage = System.getProperty("dukecon.apitests.pathToSpeakerImage");
-
 	private static String pathToStylesCss = System.getProperty("dukecon.apitests.pathToStylesCss");
 
 	@Test

@@ -19,11 +19,12 @@ import static org.springframework.restdocs.restassured3.RestAssuredRestDocumenta
 public class EventsBookingTests extends BaseTests {
 
 	private final String badToken = UUID.randomUUID().toString();
-
 	private final String userToken = new TokenGatherer().gatherUserToken();
-	private final String adminToken = new TokenGatherer().gatherAdminToken();
-	private static String pathToEventsBooking = "/javaland/2019/rest/eventsBooking/javaland2019";
 
+	private final String eventId = UUID.randomUUID().toString(); //TODO get date from conference?
+
+	private final String pathToEventsBooking = System.getProperty("dukecon.apitests.pathToEventsBooking");
+	private final String pathToEventsBookingEvent = String.format("%s/%s",pathToEventsBooking,eventId);
 	@Test
 	public void testEventsBookingGet() {
 		whenUrlOkAndContentTypeMatches(pathToEventsBooking, ContentType.JSON.toString(), document("eventsBookingGet"))
@@ -42,11 +43,11 @@ public class EventsBookingTests extends BaseTests {
 	}
 
 	@Test
-	@EnabledIfSystemProperty(named = "dukecon.apitests.authEnabled", matches = "true")
+	@EnabledIfSystemProperty(named = "dukecon.apitests.auth.enabled", matches = "true")
 	public void testEventBookingsUpdateIsInGeneralSecured() {
 		String eventId = UUID.randomUUID().toString(); // TODO get date from conference?
 
-		eventsBookingPost(badToken, eventId, "{\"fullyBooked\":false,\"numberOccupied\":\"10\"}",
+		eventsBookingPost(badToken, "{\"fullyBooked\":false,\"numberOccupied\":\"10\"}",
 			document("eventsBookingPostWithBadAuthCreate"))
 			.assertThat()
 			//TODO this should return 401/403
@@ -55,11 +56,9 @@ public class EventsBookingTests extends BaseTests {
 	}
 
 	@Test
-	@EnabledIfSystemProperty(named = "dukecon.apitests.authEnabled", matches = "true")
+	@EnabledIfSystemProperty(named = "dukecon.apitests.auth.enabled", matches = "true")
 	public void testEventBookingsUpdateIsAdminSecured() {
-		String eventId = UUID.randomUUID().toString(); //TODO get date from conference?
-
-		eventsBookingPost(userToken, eventId, "{\"fullyBooked\":false,\"numberOccupied\":\"10\"}",
+		eventsBookingPost(userToken, "{\"fullyBooked\":false,\"numberOccupied\":\"10\"}",
 			document("eventsBookingPostWithUserAuthCreate"))
 			.assertThat()
 			//TODO this should return 401/403
@@ -71,7 +70,7 @@ public class EventsBookingTests extends BaseTests {
 	public void testEventBookingsUpdate() {
 		String eventId = UUID.randomUUID().toString(); //TODO get date from conference?
 
-		eventsBookingPost(userToken, eventId, "{\"fullyBooked\":true,\"numberOccupied\":\"11\"}", document("eventsBookingPostWithAuthCreate"))
+		eventsBookingPost(userToken,"{\"fullyBooked\":true,\"numberOccupied\":\"11\"}", document("eventsBookingPostWithAuthCreate"))
 			.assertThat()
 			.statusCode(201)
 			.body(equalTo("{\"numberOccupied\":11,\"fullyBooked\":true}"));
@@ -79,7 +78,7 @@ public class EventsBookingTests extends BaseTests {
 		//TODO verify that the created eventbooking exists in the conference?
 
 		//TODO check that updating an existing eventBooking works
-		eventsBookingPost(userToken, eventId, "{\"fullyBooked\":false,\"numberOccupied\":\"10\"}", document("eventsBookingPostWithAuthUpdate"))
+		eventsBookingPost(userToken,"{\"fullyBooked\":false,\"numberOccupied\":\"10\"}", document("eventsBookingPostWithAuthUpdate"))
 			.assertThat()
 			.statusCode(204)
 			.body(emptyString());
@@ -88,12 +87,12 @@ public class EventsBookingTests extends BaseTests {
 
 	//TODO limit overflow?
 	//TODO crosscheck with feedback?
-	private ValidatableResponse eventsBookingPost(String token, String eventId, String eventsBookingContent, RestDocumentationFilter documentationFilter) {
+	private ValidatableResponse eventsBookingPost(String token, String eventsBookingContent, RestDocumentationFilter documentationFilter) {
 		return given(this.spec).auth().oauth2(token)
 			.body(eventsBookingContent)
 			.contentType(ContentType.JSON)
 			.filter(documentationFilter)
-			.post(String.format("%s/%s",pathToEventsBooking,eventId))
+			.post(pathToEventsBookingEvent)
 			.then();
 	}
 }
